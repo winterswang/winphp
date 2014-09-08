@@ -1,0 +1,34 @@
+10
+
+dir
+1193
+http://192.168.1.99:8077/repos/ikuaizu/trunk/kz_www/apps/weixin
+http://192.168.1.99:8077/repos/ikuaizu
+
+
+
+2013-11-23T10:09:39.479816Z
+1191
+peter
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+2bf564d5-12ad-fe46-9b5e-2507d54e1242
+
+phproot
+dir
+
+wwwroot
+dir
+

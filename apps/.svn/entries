@@ -1,0 +1,123 @@
+10
+
+dir
+1193
+http://192.168.1.99:8077/repos/ikuaizu/trunk/kz_www/apps
+http://192.168.1.99:8077/repos/ikuaizu
+
+
+
+2013-11-23T10:09:39.479816Z
+1191
+peter
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+2bf564d5-12ad-fe46-9b5e-2507d54e1242
+
+admin
+dir
+
+agent
+dir
+
+apiport
+dir
+
+main
+dir
+
+spider
+dir
+
+vsoufang
+dir
+
+weixin
+dir
+
+weixin_dev
+dir
+
+weixin_stephen
+dir
+
+数据库结构.docx
+file
+
+
+
+
+2013-11-23T10:44:35.000000Z
+3ea3898ea75f1947726fe5b40222c602
+2013-08-07T14:02:33.240144Z
+592
+stephen
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+67930
+
+服务配置.docx
+file
+
+
+
+
+2013-11-23T10:44:35.000000Z
+8ae612eefa3ac3e80bf19b0cdb052d99
+2013-08-07T14:02:33.240144Z
+592
+stephen
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+86862
+

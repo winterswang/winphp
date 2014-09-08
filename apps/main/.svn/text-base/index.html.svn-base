@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link type="text/css" rel="stylesheet" href="./ikuaizu_style.css">
+    <link type="image/x-icon" href="/images/logo_mini.ico" rel="icon" />
+	<link rel="shortcut icon" href="/images/logo_mini.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/reveal.css" />
+    <script src="/jquery-1.9.1.min.js"></script>
+    <script src="/jquery.reveal.js"></script>
+	<title>微搜房</title>
+</head>
+<body>
+<div class = "web_background">
+<div class = "head_wrap">
+	<div class = "hd">
+		<h1><img src="/images/logo.png"/></h1>
+ 		<div class='nav'>
+ 		<a href="#" class="admin_btn" ><img src='/images/admin_btn.png'></a>
+		</div>
+	</div>
+	<div class = "web_content1">
+		<div class = "web_content_first">
+			<div class = "part_left_pic">
+				<img src="/images/pic_phone.png"/>
+			</div>
+			<div class = 'first_right'>
+				<img src='/images/zi_46.png'>
+				<a href="javascript:demo();"><img src='/images/demo.png'></a>
+				<div class='bar_group'>
+					<div class='bar_item'>
+						<img src='/images/vsf_33.png'>
+						<span>扫描二维码，关注微搜房公共账号</span>
+						<span>(所有智能手机适用)</span>
+					</div>
+					<div class='bar_item'>
+						<img src='/images/vsf_35.png'>
+						<span>关注微信学区房那些事儿公共账号</span>
+						<span>(所有智能手机适用)</span>
+					</div>
+					<div style='clear:both;'> </div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class = "web_content2">
+		<div class = "web_content_second">
+				<div class = "part_left_text">
+					<div style="font-size:30px;">择校咨询，尽在掌握</div>
+					<div>
+					<br>
+					海量的学校如何选，小微为您贴心总结各区名校<br>
+					择校攻略，祝您筹划最佳择校方案；
+					</div>
+				</div>
+				<div class = "part_right_pic">
+					<img src="/images/vsf_38.png">
+				</div>
+		</div>
+
+		<div class = "web_content_third">
+			<div class = "third_left_pic">
+				<img src="/images/vsf_12.png">
+			</div>
+			<div class = "third_right_text">
+				<div style="font-size:30px;">划片信息，精确定位</div>
+				<div>
+				<br>
+				划片政策年年变，小微帮你轻松了解心意学校最<br>
+				近几年的划片信息
+				</div>
+			</div>
+		</div>
+		
+		<div class = "web_content_fouth">
+			<div class = "fouth_left_text">
+				<div style="font-size:30px;">学区找房，真实高效</div>
+				<div>
+				<br>
+				第一时间为您提供真实学区房讯，让您快人一步<br>
+				获取优质房源
+				</div>
+			</div>
+			<div class = "fouth_center_pic">
+				<img src="/images/vsf_30.png">
+			</div>
+		</div>
+		
+		<div class = "web_content_fifth">
+			<div class = "fifth_left_pic">
+				<img src="/images/vsf_09.png">
+			</div>
+			<div class = "fifth_right_text">
+				<div style="font-size:30px;">一键关注，尽在指尖</div>
+				<div>
+				<br>
+				微搜房微信公众号，无需下载，一键关注轻松，<br>
+				使用。
+				</div>
+			</div>
+		</div>
+		
+		<div class = "web_foot">
+			@微搜房 vsoufang.cn All rights reserved 京ICP备13018035号
+		</div>
+	</div>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,24 @@
+﻿div.spinedit { display: inline-block; position: relative; }
+input[type="text"].spinedit { width: 42px; float: left;text-align: center;}
+/*
+input[type="text"].spinedit { 
+	width: 35px; background-color: #FFFFFF;
+    border: 1px solid #CCCCCC;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+    transition: border 0.2s linear 0s, box-shadow 0.2s linear 0s;border-radius: 4px 4px 4px 4px;
+    color: #555555;
+    display: inline-block;
+    font-size: 14px;
+    height: 30px;
+    line-height: 30px;
+    width:40px;
+    margin-bottom: 10px;
+    padding: 4px 6px;
+    vertical-align: middle;
+}
+*/
+div.spinedit .glyphicon-chevron-up,
+div.spinedit .glyphicon-chevron-down { position: relative; cursor: pointer; width: 12px; left: 8px; }
+div.spinedit .glyphicon-chevron-up { top: -3px; }
+div.spinedit .glyphicon-chevron-down { top: 11px; left: -5px; }
+.form-search div.spinedit, .form-inline div.spinedit, .form-horizontal div.spinedit { top: 5px; }

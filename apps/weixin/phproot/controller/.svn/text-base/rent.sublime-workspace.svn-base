@@ -1,0 +1,229 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"touser",
+				"toUsername"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"contents": "<?php\ndefine(\"TOKEN\", \"jia2052013\");\n\nclass defaultController extends WeixinController\n{\n		\n	public function actionIndex()\n    {\n        $aa;\n        $jjj\n\n    	$req = WinBase::app()->getRequest();\n        $echoStr = $req->getParam(\"echostr\");\n     	$postStr = $GLOBALS[\"HTTP_RAW_POST_DATA\"];\n		file_put_contents(\"/data/wwwlogs/wx.log\", $postStr.\"\\n\", FIinstallphpLE_APPEND); \n		//text\n		//$postStr = \"<xml><ToUserName><![CDATA[gh_7444d0ebe116]]></ToUserName><FromUserName><![CDATA[o3fzJjobA01l46K2KKmOA4t4S9MA]]></FromUserName><CreateTime>1368595481</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[hi]]></Content><MsgId>5878072832348391016</MsgId></xml>\";\n        //event\n		//$postStr = \"<xml><ToUserName><![CDATA[gh_8d57caa49852]]></ToUserName><FromUserName><![CDATA[otSWhjiPFSbsI2WMFbt4tcyf8MkI]]></FromUserName><CreateTime>1368697503</CreateTime><MsgType><![CDATA[event]]></MsgType><Event><![CDATA[LOCATION]]></Event><Latitude>31.218288</Latitude><Longitude>121.432915</Longitude><Precision>65.000000</Precision></xml>\";\n		//location\n		//$postStr = \"<xml><ToUserName><![CDATA[gh_7444d0ebe116]]></ToUserName> <FromUserName><![CDATA[o3fzJjobA01l46K2KKmOA4t4S9MA]]></FromUserName> <CreateTime>1368615244</CreateTime> <MsgType><![CDATA[location]]></MsgType> <Location_X>31.216516</Location_X> <Location_Y>121.437729</Location_Y> <Scale>15</Scale> <Label><![CDATA[中国上海市长宁区镇宁路91号 邮政编码: 200050]]></Label> <MsgId>5878157713787061882</MsgId> </xml>\";\n		//valid signature\n		//var_dump($postStr);\n		if($this->checkSignature()){\n		//if(!$this->checkSignature()){\n        	if( empty( $postStr) )\n        	{\n        		echo $echoStr;\n						\n        		exit;\n        	}else{\n        		$postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);\n        		$toUsername = $postObj->ToUserName;\n        		$fromUsername = $postObj->FromUserName;\n                $msgType = $postObj->MsgType;\n\n				$data[\"toUsername\"] = $fromUsername;\n                $data[\"fromUsername\"] = $toUsername;\n                $data[\"createTime\"] = time();\n				\n				//根据msgType获取结果\n                $contentStr = $this->genContentStr( $postObj );\n\n	            //var_dump($contentStr[\"data\"]);//exit;\n				\n				if( $msgType == \"event\"){\n				\n				}else if( empty($contentStr) || ($msgType==\"text\" && $this->pretreatmentKeyword( $keyword )) )\n                {\n				    $msgType = \"text\";\n              		$data[\"msgType\"] = $msgType;\n                	$contentStr = $this->getHelpContent();\n              		$data[\"contentStr\"] = $contentStr;\n              		$this->render(\"t_index\",$data);\n\n                }else if($contentStr[\"info\"] == \"Success\"){\n              		$msgType = \"news\";\n              		$data[\"msgType\"] = $msgType;\n              		$data[\"contentStr\"] = $contentStr[\"data\"]['data'];\n              		$data[\"rescount\"] = count($data[\"contentStr\"]);\n                    $this->render(\"t_search\", $data);                 		\n                }else{\n              		$msgType = \"text\";\n              		$data[\"msgType\"] = $msgType;\n                	$contentStr = \"未找到房源，请尝试其他区域或移动地图重新发送位置。\";\n              		$data[\"contentStr\"] = $contentStr;\n                	//file_put_contents(\"/data/wwwlogs/wx.log\", date(\"Ymd\").\"未找到房源。\".\"\\n\", FILE_APPEND); \n              		$this->render(\"t_index\",$data);                	\n                }\n\n//              file_put_contents(\"/var/log/apache2/weixin/req.log\", $postStr.\"\\n\", FILE_APPEND);\n             	//file_put_contents(\"/data/wwwlogs/wx.log\", $postStr.\"\\n\", FILE_APPEND);        		\n        	}\n        	   \n        }else{\n        	echo \"Invalid signature\";\n        	file_put_contents(\"/data/wwwlogs/wx.log\", \"Invalid signature\".\"\\n\", FILE_APPEND);\n        	exit;\n        }\n\n    }\n        \n    private function genContentStr( $postObj )\n    {\n    	$msgType = $postObj->MsgType;\n		$contentStr = \"\";\n		$fromUsername = $postObj->FromUserName;\n    	if( $msgType == \"text\" )\n    	{\n    		//$keyword = mysql_escape_string(trim($postObj->Content));\n    		//$contentStr = $this->getSearchResultByKeyword($fromUsername, $keyword );\n\n    	}else if( $msgType == \"location\")\n    	{\n				//var_dump($postObj->Location_X);exit;\n    		$arrLatlng = array('lat'=>$postObj->Location_X.\"\", 'lng'=>$postObj->Location_Y.\"\");;\n			//var_dump($arrLatlng);exit;\n    		$contentStr = $this->getSearchResultByxy($fromUsername, $arrLatlng);\n    		//$contentStr = $this->getSearchResultByxy(\"jjj\");\n    	}\n    	return $contentStr;	\n    }\n\n    private	function pretreatmentKeyword( $keyword )\n    {\n		$keyword = strtolower($keyword);\n    	$specialcharList = array(\"Hello2BizUser\",\"?\",\"%\",\"help\",\"h\",\"hi\",\"hello\",\"你好\",\"在吗\");\n    	return ( empty($keyword) || in_array($keyword, $specialcharList) );\n\n    }\n    \n    private function getHelpContent()\n    {\n    	$contentStr = \"真实房源无中介，欢迎来到快租的世界！\";\n    	return $contentStr;\n    }\n	\n	private function checkSignature()\n	{\n        $signature = $_GET[\"signature\"];\n        $timestamp = $_GET[\"timestamp\"];\n        $nonce = $_GET[\"nonce\"];	\n        		\n		$token = TOKEN;\n		$tmpArr = array($token, $timestamp, $nonce);\n		sort($tmpArr);\n		$tmpStr = implode( $tmpArr );\n		$tmpStr = sha1( $tmpStr );\n		\n		if( $tmpStr == $signature ){\n			return true;\n		}else{\n			return false;\n		}\n	}\n	\n	private function getSearchResultByxy( $uuid, $arrParams )\n	{\n		$server = new serverExt( $uuid );\n		//$res = $server->api()->search_house('xy',array('lat'=>'31.216516','lng'=>'121.437729'));\n		$res = $server->api()->search_house('xy', $arrLatlng);\n		return $res;\n	}\n}\n\n\n/*\n<xml>\n<ToUserName><![CDATA[toUser]]></ToUserName>\n<FromUserName><![CDATA[fromUser]]></FromUserName>\n<CreateTime>1348831860</CreateTime>\n<MsgType><![CDATA[text]]></MsgType>\n<Content><![CDATA[this is a test]]></Content>\n</xml>\n $postStr = \"<xml><ToUserName><![CDATA[gh_e86d72cb1414]]></ToUserName>\n<FromUserName><![CDATA[wxid_g3hsman8ws4x11]]></FromUserName>\n<CreateTime>1352119282</CreateTime>\n<MsgType><![CDATA[text]]></MsgType>\n<Content><![CDATA[qqqq]]></Content>\n</xml>\";\n//  \n*/\n\n/*\nclass defaultController extends WeixinController\n{\n\n	public function actionIndex()\n	{\n		\n		$data = array();\n\n		$this->render('publish',$data);\n	}\n	\n	public function actionTestApi(){\n		$uuid = 'oDOacjlTTGy45OBstR4N-mWvO_M4';\n		\n		$apiServer = WinBase::app()->loadClass(array('class'=>'serverExt','filePath'=> ROOT_PRO_PATH.'/ext/ikuaizu_Sdk/serverExt.php'),$uuid);\n		$res = $apiServer->api()->system_preload();\n		\n		if($res['status'] > 0){\n			$this->showError($res['status']);\n		}\n		\n		print_r($res);\n	}\n	\n}\n*/\n\n//验证sig \n/*\ndefine(\"TOKEN\", \"jia2052013\");\n$echoStr = $_GET[\"echostr\"];\n\nif(checkSignature())\n{\n	echo $echoStr;\n}\n\nfunction checkSignature()\n{\n	$signature = $_GET[\"signature\"];\n	$timestamp = $_GET[\"timestamp\"];\n	$nonce = $_GET[\"nonce\"];\n\n	$token = TOKEN;\n	$tmpArr = array($token, $timestamp, $nonce);\n	sort($tmpArr);\n	$tmpStr = implode( $tmpArr );\n	$tmpStr = sha1( $tmpStr );\n\n	if( $tmpStr == $signature ){\n		return true;\n	}else{\n		return false;\n	}\n}\n*/\n?>",
+			"file": "defaultController.php",
+			"file_size": 7102,
+			"file_write_time": 1368865313000000,
+			"settings":
+			{
+				"buffer_size": 6950,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "Packages/User/php.sublime-build",
+	"command_palette":
+	{
+		"height": 392.0,
+		"selected_items":
+		[
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"insall",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 602.0
+	},
+	"console":
+	{
+		"height": 125.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/dickyao/Library/Application Support/Sublime Text 2/Packages/User/php.sublime-build",
+		"/project/rent/kz_www/apps/weixin/phproot/controller/defaultController.php",
+		"/project/rent/kz_www/apps/weixin/phproot/ext/server/ikuaizuApi.php",
+		"/project/rent/kz_www/apps/weixin/phproot/ext/server/authClient.php",
+		"/project/rent/kz_www/apps/weixin/phproot/views/search.php",
+		"/project/rent/kz_www/apps/apiport/phproot/component/ApiController.php",
+		"/project/rent/kz_www/apps/weixin/wwwroot/index.php",
+		"/project/rent/kz_www/lib/winphp/base/BaseController.php",
+		"/project/rent/kz_www/apps/weixin/phproot/component/weixinController.php",
+		"/Users/dickyao/Library/Application Support/Sublime Text 2/Packages/SublimeCodeIntel/Base File.sublime-settings",
+		"/Users/dickyao/Library/Application Support/Sublime Text 2/Packages/User/Base File.sublime-settings",
+		"/Users/dickyao/Library/Application Support/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
+		"/project/rent/kz_www/apps/weixin/phproot/ext/ikuaizu_Sdk/authClient.php",
+		"/project/rent/kz_www/apps/weixin/phproot/ext/ikuaizu_Sdk/ikuaizuApi.php",
+		"/Users/dickyao/Library/Caches/Cleanup At Startup/Transmit/6E24EC05-3A11-4D24-92A6-C0A741041F05/checksig.php"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"	\n",
+			"}",
+			"{",
+			"Invalid",
+			"file_put",
+			"}",
+			"{",
+			"\\{\n",
+			"{\n",
+			"                	\n",
+			"data",
+			"checksign"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"?>",
+			"<?=",
+			"?>",
+			"<?="
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "defaultController.php",
+					"settings":
+					{
+						"buffer_size": 6950,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								141,
+								141
+							]
+						],
+						"settings":
+						{
+							"is_xml": false,
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 183.0
+	},
+	"replace":
+	{
+		"height": 64.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"",
+				"n"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": false,
+	"side_bar_width": 227.0,
+	"status_bar_visible": true
+}

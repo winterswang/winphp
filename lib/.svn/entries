@@ -1,0 +1,31 @@
+10
+
+dir
+1193
+http://192.168.1.99:8077/repos/ikuaizu/trunk/kz_www/lib
+http://192.168.1.99:8077/repos/ikuaizu
+
+
+
+2013-11-04T07:09:56.601640Z
+1079
+stephen
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+2bf564d5-12ad-fe46-9b5e-2507d54e1242
+
+winphp
+dir
+
